@@ -1,0 +1,19 @@
+set daemon 5
+  with start delay 30
+
+set logfile syslog facility log_daemon
+
+set eventqueue
+    basedir /var/monit  # set the base directory where events will be stored
+    slots 1000          # optionaly limit the queue size
+
+set mmonit http://monit:monit@<%= node['monit']['mmonit']['host'] %>:8080/collector
+set httpd port 2812 and
+    allow 10.0.0.0/8
+    allow localhost
+    allow <%= node['monit']['mmonit']['host']  %>
+    allow <%= node['monit']['mmonit']['credentials'] %>
+
+set idfile /etc/monit.id
+
+include /etc/monit.d/*.conf
