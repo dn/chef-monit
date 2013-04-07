@@ -59,7 +59,7 @@ end
 template "/etc/monitrc" do
   source "monitrc.erb"
   backup false
-  mode   0644
+  mode   0700
   action :create
 end
 

@@ -13,10 +13,10 @@
 # Definitions
 
     monit_app "nginx" do
+      app_name     "frontend"
+
       # cookbook   "nginx"     # if different then name
       # variables  {...}       # to pass down to the template
-      app_name     "frontend" 
-  
     end
 
   monit_app expects a template "#{name}.monitrc.erb"
