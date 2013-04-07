@@ -42,11 +42,9 @@ file "/opt/mmonit-2.4/db/mmonit.db" do
   group "nogroup"
 end
 
-template "/etc/monit.d/mmonit.conf" do
-  source "mmonit.conf.erb"
-  mode   00600
+monit_app "mmonit" do
+  app_name "mmonit"
+  cookbook "monit"
 end
 
-service "monit" do
-  action :restart
-end
+
