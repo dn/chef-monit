@@ -36,15 +36,19 @@ monit_check_syntax () {
   $DAEMON -t;
 }
 
-monit_checks () {
-    # Check permissions of configfile
-    monit_check_perms
+monit_reload () {
+  $DAEMON reload
 }
 
 case "$1" in
+  reload)
+  echo -n "Reloading $DESC: "
+	echo -n "$NAME"
+  monit_reload
+  echo "."
+  ;;
   start)
 	echo -n "Starting $DESC: "
-    monit_checks $1
 	echo -n "$NAME"
 	start-stop-daemon --start --quiet --pidfile /var/run/$NAME.pid \
 		--exec $DAEMON > /dev/null 2>&1 -- $ARGS
@@ -52,7 +56,6 @@ case "$1" in
 	;;
   stop)
 	echo -n "Stopping $DESC: "
-    #monit_checks $1
 	echo -n "$NAME"
 	start-stop-daemon --retry 5 --oknodo --stop --quiet --pidfile /var/run/$NAME.pid \
 		--exec $DAEMON  > /dev/null 2>&1
@@ -67,7 +70,7 @@ case "$1" in
    ;;
   *)
 	N=/etc/init.d/$NAME
-	echo "Usage: $N {start|stop|restart|force-reload|syntax}" >&2
+	echo "Usage: $N {start|stop|restart|force-reload|syntax|reload}" >&2
 	exit 1
 	;;
 esac
