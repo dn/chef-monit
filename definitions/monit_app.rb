@@ -1,7 +1,7 @@
-define :monit_app, :app_name => nil, :cookbook => nil do
-  template "/etc/monit.d/<%= params[:name] %>.conf" do
+define :monit_app, :app_name => nil, :cookbook => nil, :variables => {} do
+  template "/etc/monit.d/#{params[:name]}.conf" do
     source    "#{params[:name]}.monitrc.erb"
-    variables ({:name => params[:app_name]})
+    variables ({:name => params[:app_name]}.merge(params[:variables]))
 
     cookbook  params[:cookbook] || params[:name]
   end

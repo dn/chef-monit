@@ -10,6 +10,17 @@
 * default ~> installs monit
 * mmonit ~> installs mmonit
 
+# Definitions
+
+    monit_app "nginx" do
+      # cookbook   "nginx"     # if different then name
+      # variables  {...}       # to pass down to the template
+      app_name     "frontend" 
+  
+    end
+
+  monit_app expects a template "#{name}.monitrc.erb"
+
 # Author
 
 Author:: Daniel Nolte (<gh@wortbit.de>)
