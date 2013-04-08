@@ -28,23 +28,23 @@ unless File.exists? "/opt/mmonit-2.4/bin/mmonit"
   file "/opt/#{filename}" do
     action :delete
   end
-end
 
-%w{logs db}.each do |dir|
-  directory "/opt/mmonit-2.4/#{dir}" do
+  %w{logs db}.each do |dir|
+    directory "/opt/mmonit-2.4/#{dir}" do
+      owner "nobody"
+      group "nogroup"
+    end
+  end
+
+  file "/opt/mmonit-2.4/db/mmonit.db" do
     owner "nobody"
     group "nogroup"
   end
+
+  node.set['provides'] << [["mmonit", {'credentials' => 'monit:monit'}]]
+ 
+  monit_app "mmonit" do
+    app_name "mmonit"
+    cookbook "monit"
+  end
 end
-
-file "/opt/mmonit-2.4/db/mmonit.db" do
-  owner "nobody"
-  group "nogroup"
-end
-
-monit_app "mmonit" do
-  app_name "mmonit"
-  cookbook "monit"
-end
-
-

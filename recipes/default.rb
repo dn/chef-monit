@@ -4,13 +4,14 @@
 #
 # Copyright (C) 2013 Daniel Nolte
 
-%w{build-essential libpam0g-dev}.each do |pkg|
- package pkg do 
-   action :install
- end
-end
-
 unless File.exists? "/usr/local/bin/monit" 
+
+  %w{build-essential libpam0g-dev}.each do |pkg|
+   package pkg do 
+     action :install
+   end
+  end
+
   filename = 'monit-5.5.tar.gz' 
   dirname  = filename.split('-').first
 
@@ -40,35 +41,44 @@ unless File.exists? "/usr/local/bin/monit"
       command cmd
     end
   end
-end
 
-directory "/etc/monit.d" do
-  owner  "root"
-  group  "root"
-  mode   0755
-  action :create
-end
+  directory "/etc/monit.d" do
+    owner  "root"
+    group  "root"
+    mode   0755
+    action :create
+  end
 
-directory "/var/lib/monit" do
-  owner  "root"
-  group  "root"
-  mode   0755
-  action :create
-end
+  directory "/var/lib/monit" do
+    owner  "root"
+    group  "root"
+    mode   0755
+    action :create
+  end
 
-template "/etc/monitrc" do
-  source "monitrc.erb"
-  backup false
-  mode   0700
-  action :create
-end
+  host, credentials = nil, nil
+  if Chef::Config[:solo]
+    host        = "localhost"
+    credentials = "monit:monit"
+  else
+  end
 
-cookbook_file "/etc/init.d/monit" do
-  backup false
-  mode   0755 
-  action :create
-end
+  template "/etc/monitrc" do
+    variables({:host        => host,
+               :credentials => credentials})
+    source    "monitrc.erb"
+    backup    false
+    mode      0700
+    action    :create
+  end
 
-service "monit" do
-  action [ :enable, :start ]
+  cookbook_file "/etc/init.d/monit" do
+    backup false
+    mode   0755 
+    action :create
+  end
+
+  service "monit" do
+    action [ :enable, :start ]
+  end
 end
