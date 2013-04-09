@@ -5,6 +5,13 @@
 # Copyright (C) 2013 Daniel Nolte
 
 unless File.exists? "/opt/mmonit-2.4/bin/mmonit"
+
+  %w{build-essential libpam0g-dev libssl-dev}.each do |pkg|
+   package pkg do 
+     action :install
+   end
+  end
+
   filename = 'mmonit-2.4.tar.gz' 
   dirname  = filename.split('-').first
 
