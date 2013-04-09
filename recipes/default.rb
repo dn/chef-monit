@@ -6,7 +6,7 @@
 
 unless File.exists? "/usr/local/bin/monit" 
 
-  %w{build-essential libpam0g-dev}.each do |pkg|
+  %w{build-essential libpam0g-dev libssl-dev}.each do |pkg|
    package pkg do 
      action :install
    end
@@ -82,6 +82,6 @@ unless File.exists? "/usr/local/bin/monit"
   end
 
   service "monit" do
-    action [ :enable, :start ]
+    action [ :enable, :start, :reload ]
   end
 end
