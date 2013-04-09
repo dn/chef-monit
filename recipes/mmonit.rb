@@ -41,7 +41,7 @@ unless File.exists? "/opt/mmonit-2.4/bin/mmonit"
     group "nogroup"
   end
 
-  node.set['provides'] <<= [["mmonit", {'credentials' => 'monit:monit'}]]
+  node['provides'] <<= [["mmonit", {'credentials' => 'monit:monit'}]]
  
   monit_app "mmonit" do
     app_name "mmonit"
