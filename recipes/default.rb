@@ -32,7 +32,7 @@ unless File.exists? "/usr/local/bin/monit"
     command "tar xfz #{filename}"
   end
 
-  [ "./configure",
+  [ "./configure --without-ssl",
     "make",
     "make install"].each do |cmd|
 
