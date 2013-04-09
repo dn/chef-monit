@@ -61,7 +61,7 @@ unless File.exists? "/usr/local/bin/monit"
     host        = "localhost"
     credentials = "monit:monit"
   else
-    mmonit_node = search(:nodes, "roles:mmonit")
+    mmonit_node = search(:node, "roles:mmonit").first
     host        = mmonit_node['fqdn']
     credentials = mmonit_node['mmonit']['credentials']
   end
