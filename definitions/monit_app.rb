@@ -8,5 +8,7 @@ define :monit_app, :app_name => nil, :cookbook => nil, :variables => {} do
     cookbook  params[:cookbook] || params[:name]
   end
  
-  notifies :restart, "monit[reload]" 
+  execute "/etc/init.d/monit reload" do
+    action :run
+  end
 end
