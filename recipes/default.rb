@@ -82,6 +82,7 @@ unless File.exists? "/usr/local/bin/monit"
   end
 
   service "monit" do
-    action [ :enable, :start, :reload ]
+    supports :start => true, :stop => true, :restart => true, :reload => true
+    action   [ :enable, :start, :reload ]
   end
 end

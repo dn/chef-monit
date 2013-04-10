@@ -7,8 +7,6 @@ define :monit_app, :app_name => nil, :cookbook => nil, :variables => {} do
 
     cookbook  params[:cookbook] || params[:name]
   end
-  
-  service "monit" do
-    action :reload
-  end
+ 
+  notifies :restart, "monit[reload]" 
 end
